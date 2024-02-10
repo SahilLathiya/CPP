@@ -7,7 +7,7 @@ public:
             if(nums[ind]<0)
                 res.push_back(abs(nums[i]));
             else
-                nums[ind] = nums[ind] * -1;
+                nums[ind] = -nums[ind];
         }
         return res;
     }
