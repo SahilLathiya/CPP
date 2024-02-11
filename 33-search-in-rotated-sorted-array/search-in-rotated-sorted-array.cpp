@@ -28,14 +28,9 @@ public:
     }
     int search(vector<int>& nums, int target) {
         int pivot = findPivote(nums);
-        
-        int left = binarySearch(nums,0,pivot-1,target);
-        int right = binarySearch(nums,pivot,nums.size()-1,target);
-
-        if(left!=-1)
-            return left;
-        if(right!=-1)
-            return right;
-        return -1;
+        if(nums[pivot]<=target && target<=nums[nums.size()-1])
+            return binarySearch(nums,pivot,nums.size()-1,target);
+        else
+            return binarySearch(nums,0,pivot-1,target);
     }
 };
