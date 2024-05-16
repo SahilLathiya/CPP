@@ -1,38 +1,40 @@
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& arr) {
+        
         vector<int> ans;
+        int s_row = 0;
+        int e_col = arr[0].size()-1;
+        int e_row = arr.size()-1;
+        int s_col = 0;
 
-        int startRow = 0, endCol = arr[0].size()-1, endRow = arr.size()-1, startCol = 0;
-
-        int cnt = 0;
-        int total = (endRow+1)*(endCol+1);
-
-        while(cnt<total){
-            //Print Start Row
-            for(int i=startCol;cnt<total && i<=endCol;i++){
-                ans.push_back(arr[startRow][i]);
-                cnt++;
+        while(s_row<=e_row && s_col<=e_col){
+            
+            for(int i=s_col;i<=e_col;i++){
+                ans.push_back(arr[s_row][i]);
             }
-            startRow++;
-            //Print End Col
-            for(int i=startRow;cnt<total && i<=endRow;i++){
-                ans.push_back(arr[i][endCol]);
-                cnt++;
-            }
-            endCol--;
+            s_row++;
 
-            for(int i=endCol;cnt<total && i>=startCol;i--){
-                ans.push_back(arr[endRow][i]);
-                cnt++;
+            if(s_row<=e_row && s_col<=e_col){
+                for(int i=s_row;i<=e_row;i++){
+                    ans.push_back(arr[i][e_col]);
+                }
+                e_col--;
             }
-            endRow--;
 
-            for(int i=endRow;cnt<total&&i>=startRow;i--){
-                ans.push_back(arr[i][startCol]);
-                cnt++;
+            if(s_row<=e_row && s_col<=e_col){
+                for(int i=e_col;i>=s_col;i--){
+                    ans.push_back(arr[e_row][i]);
+                }
+                e_row--;
             }
-            startCol++;
+
+            if(s_row<=e_row && s_col<=e_col){
+                for(int i=e_row;i>=s_row;i--){
+                    ans.push_back(arr[i][s_col]);
+                }
+                s_col++;
+            }
 
         }
 
