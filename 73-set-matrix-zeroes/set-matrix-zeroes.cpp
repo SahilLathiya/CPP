@@ -1,27 +1,22 @@
 class Solution {
 public:
-    void setZero(vector<vector<int>>& m, int x, int y){
-        for(int i = 0;i<m.size();i++)
-            m[i][y] = 0;
-
-        for(int j = 0;j<m[0].size();j++)
-            m[x][j] = 0;
-    }
-    void setZeroes(vector<vector<int>>& m) {
-        vector<pair<int,int>> cordi;
-
-        for(int i=0;i<m.size();i++)
-            for(int j=0;j<m[0].size();j++)
-                if(m[i][j]==0){
-                    pair<int,int> p;
-                    p.first = i;
-                    p.second = j;
-                    cordi.push_back(p);
+    void setZeroes(vector<vector<int>>& matrix) {
+        vector<vector<int>> loc;
+        for(int i=0;i<matrix.size();i++){
+            for(int j=0;j<matrix[0].size();j++){
+                if(matrix[i][j]==0){
+                    loc.push_back({i,j});
                 }
-
-        for(auto i:cordi){
-            setZero(m,i.first,i.second);
+            }
         }
-        
+        for(int k=0;k<loc.size();k++){
+            int x = loc[k][0];
+            int y = loc[k][1];
+            for(int i=0;i<matrix[0].size();i++)
+                matrix[x][i] = 0;
+
+            for(int j=0;j<matrix.size();j++)
+                matrix[j][y] = 0;
+        }
     }
 };
