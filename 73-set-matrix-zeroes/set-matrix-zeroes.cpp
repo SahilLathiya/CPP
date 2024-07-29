@@ -1,22 +1,30 @@
 class Solution {
 public:
-    void setZeroes(vector<vector<int>>& matrix) {
-        vector<vector<int>> loc;
-        for(int i=0;i<matrix.size();i++){
-            for(int j=0;j<matrix[0].size();j++){
-                if(matrix[i][j]==0){
-                    loc.push_back({i,j});
+    void setZeroes(vector<vector<int>>& arr) {
+        int m = arr.size(), n = arr[0].size();
+        int row[m];
+        int col[n];
+        for (int i = 0; i < m; i++) {
+            row[i] = 0;
+        }
+        for (int i = 0; i < n; i++) {
+            col[i] = 0;
+        }
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(arr[i][j]==0){
+                    row[i] = 1;
+                    col[j] = 1;
                 }
             }
         }
-        for(int k=0;k<loc.size();k++){
-            int x = loc[k][0];
-            int y = loc[k][1];
-            for(int i=0;i<matrix[0].size();i++)
-                matrix[x][i] = 0;
-
-            for(int j=0;j<matrix.size();j++)
-                matrix[j][y] = 0;
+        
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(row[i] || col[j]){
+                    arr[i][j] = 0;
+                }
+            }
         }
     }
 };
