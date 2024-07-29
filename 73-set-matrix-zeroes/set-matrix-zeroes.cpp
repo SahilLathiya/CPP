@@ -20,7 +20,7 @@ public:
             for(int j = arr[0].size()-1;j>=0;j--){
                 if(j>0 && (arr[i][0]==0 || arr[0][j]==0))
                     arr[i][j] = 0;
-                if(j==0 &&(arr[i][0]==0 || col0==0))
+                if(j==0 && (arr[i][0]==0 || col0==0))
                     arr[i][j] = 0;
             }
         }
