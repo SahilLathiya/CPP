@@ -1,31 +1,35 @@
 class Solution {
 public:
-    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+    bool searchMatrix(vector<vector<int>>& arr, int target) {
+        int lowRow = 0, highRow = arr.size()-1;
         
-        int low_row = 0, high_row = matrix.size()-1;
-
-        while(low_row <= high_row){
-            int mid = low_row + (high_row - low_row)/2;
-            if(matrix[mid][0]==target)
+        while(lowRow<=highRow){
+            int midRow = (highRow - lowRow)/2 + lowRow;
+            if(arr[midRow][0]==target)
                 return true;
-            else if(matrix[mid][0] < target)
-                low_row = mid + 1;
-            else
-                high_row = mid - 1;
+            else if(arr[midRow][0]>target){
+                highRow = midRow - 1;
+            }
+            else{
+                lowRow =  midRow + 1;
+            }
         }
-        cout<<low_row<<' '<<high_row;
-
-
-        int low_col=0, high_col=matrix[0].size() - 1; 
-        while(low_col <= high_col && high_row>=0){
-            int mid = low_col + (high_col - low_col)/2;
-            if(matrix[high_row][mid]==target)
+        // cout<<arr[lowRow][0]<<" "<<arr[highRow][0];
+        if(highRow<0)
+            return false;
+            
+        int lowCol = 0, highCol = arr[0].size()-1;
+        while(lowCol<=highCol){
+            int midCol = (highCol - lowCol)/2 + lowCol;
+            // cout<<arr[lowRow][midCol]<<' ';
+            if(arr[highRow][midCol]==target)
                 return true;
-            else if(matrix[high_row][mid] < target)
-                low_col = mid + 1;
+            else if(arr[highRow][midCol]>target)
+                highCol = midCol - 1;
             else
-                high_col = mid - 1;
+                lowCol =  midCol + 1;
         }
+        
         return false;
     }
 };
