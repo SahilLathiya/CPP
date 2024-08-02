@@ -1,33 +1,65 @@
 class Solution {
 public:
-    int mergeSort(vector<int>& nums, int left, int right) {
-        if (left >= right) return 0;
-        
-        int mid = left + (right - left) / 2;
-        int count = mergeSort(nums, left, mid) + mergeSort(nums, mid + 1, right);
-        
-        int j = mid + 1;
-        for (int i = left; i <= mid; i++) {
-            while (j <= right && nums[i] > 2LL * nums[j]) j++;
-            count += j - (mid + 1);
+    void merge(vector<int>& arr, int l, int m, int h, int* ans){
+        int n1 = m-l+1;
+        int n2 = h-m;
+        int arr1[n1];
+        int arr2[n2];
+        int i=0,j=0,k=l;
+
+        for(int i=0;i<n1;i++)
+            arr1[i] = arr[l+i];
+        for(int i=0;i<n2;i++)
+            arr2[i] = arr[m+1+i];
+
+        while(i<n1 && j<n2){
+            if(arr1[i]<=arr2[j]){
+                arr[k] = arr1[i];
+                i++;
+                k++;
+            }
+            else{
+                arr[k] = arr2[j];
+                // if(arr1[i] > 2*arr2[j])
+                //     *ans += (n1-i);
+                j++;
+                k++;
+            }
         }
-        
-        vector<int> sorted(right - left + 1);
-        int k = 0, p1 = left, p2 = mid + 1;
-        while (p1 <= mid || p2 <= right) {
-            if (p1 > mid) sorted[k++] = nums[p2++];
-            else if (p2 > right) sorted[k++] = nums[p1++];
-            else sorted[k++] = (nums[p1] <= nums[p2]) ? nums[p1++] : nums[p2++];
+        while(i<n1){
+            arr[k] = arr1[i];
+            i++;
+            k++;
         }
-        
-        for (int i = 0; i < sorted.size(); i++) {
-            nums[left + i] = sorted[i];
+        while(j<n2){
+            arr[k] = arr2[j];
+            j++;
+            k++;
         }
-        
-        return count;
     }
-    
-    int reversePairs(vector<int>& nums) {
-        return mergeSort(nums, 0, nums.size() - 1);
+    void countPairs(vector<int>& arr, int l, int m, int h, int* ans){
+        int right = m+1;
+        for(int i=l; i<=m; i++){
+            while(right<=h && (long long int)arr[i]>(long long int)2*arr[right])
+                right++;
+            *ans += (right - (m+1));
+        }
+    }
+    void mergeSort(vector<int>& arr, int l, int h, int* ans){
+        if(l>=h)
+            return;
+        int m = (h-l)/2+l;
+        mergeSort(arr,l,m,ans);
+        mergeSort(arr,m+1,h,ans);
+        countPairs(arr, l,m,h,ans);
+        merge(arr,l,m,h,ans);
+    }
+    int reversePairs(vector<int>& arr) {
+        int ans = 0;
+        int n = arr.size();
+        mergeSort(arr, 0, n-1, &ans);
+        for(int i=0;i<n;i++)
+            cout<<arr[i]<<' ';
+        return ans;
     }
 };
