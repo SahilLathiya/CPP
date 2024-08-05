@@ -10,44 +10,46 @@
  */
 class Solution {
 public:
-    ListNode* reverse(ListNode* head, int k){
-        ListNode *prev = NULL;
+    vector<ListNode*> reverse(ListNode* head, ListNode *last, ListNode* prev){
+        // ListNode *prev = NULL;
+        ListNode *ptr2 = head;
         ListNode *ptr = NULL;
-        while(head && k--){
+        while(head!=last){
             ptr = head;
             head = head->next;
             ptr->next = prev;
             prev = ptr;
         }
-        if(k){
-            head = prev;
-            while(head){
-                ptr = head;
-                head = head->next;
-                ptr->next = prev;
-                prev = ptr;
-            }
-        }
-        return prev;
+        return {prev, ptr2};
     }
     ListNode* reverseKGroup(ListNode* head, int k) {
+        if(k==1)
+            return head;
         ListNode *ptr = head;
+        ListNode *prevHead = head;
         while(ptr){
             ListNode *ptr2 = ptr;
-            int arr[k];
             int x = k;
-            while(ptr && x--){
-                arr[k-1-x] = ptr->val;
-                ptr = ptr->next;
-            }
-            if(ptr==NULL && x>0)
-                break;
-            x = k;
-            while(x--){
-                ptr2->val = arr[x];
+            while(ptr2 && x--){
                 ptr2 = ptr2->next;
-                // cout<<arr[x]<<' ';
             }
+
+            vector<ListNode*> t(2);
+
+            if(x>0)
+                break;
+            else
+                t = reverse(ptr, ptr2, ptr2);
+
+            cout<<t[0]->val<<' '<<t[1]->val<<' ';
+            if(t[1]->next)
+                cout<<t[1]->next->val<<endl;
+            if(head==prevHead)
+                head = t[0];
+            else
+                prevHead->next = t[0];
+            prevHead = t[1];
+            ptr = ptr2;
         }
         return head;
     }
