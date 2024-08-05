@@ -27,14 +27,10 @@ public:
         if(!fast)
             return ans;
         ListNode* slow = fast;
-        while(head){
-            do{
-                if(slow==head)
-                    return slow;
-                slow = slow->next;
-            }while(slow!=fast);
+        while(head!=slow){
+            slow = slow->next;
             head = head->next;
         }
-        return ans;
+        return head;
     }
 };
