@@ -18,12 +18,6 @@ public:
         }
         return cnt;
     }
-    ListNode* insetAtHead(ListNode* head, int a){
-        ListNode *ptr = new ListNode(a);
-        ptr->next = head;
-        head = ptr;
-        return head;
-    }
     ListNode* rotateRight(ListNode* head, int k) {
         int len = getLen(head);
         if(len<=1)
@@ -33,26 +27,16 @@ public:
             return head;
         ListNode *ptr = head;
         int c = len-k;
-        while(c--){
+        while(--c){
             ptr = ptr->next;
         }
-
-        int arr[k];
-        int i = 0;
-        while(ptr){
-            arr[i] = ptr->val;
-            i++;
-            ptr = ptr->next;
-        }
-
-        for(int z=k-1;z>=0;z--){
-            head = insetAtHead(head, arr[z]);
-        }
-        ptr = head;
-        while(--len){
-            ptr = ptr->next;
-        }
+        ListNode * t = ptr->next;
+        ListNode * ans = ptr->next;
         ptr->next = NULL;
-        return head;
+        while(t->next){
+            t = t->next;
+        }
+        t->next = head;
+        return ans;
     }
 };
