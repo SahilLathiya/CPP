@@ -8,28 +8,31 @@
  */
 class Solution {
 public:
-    bool isCycle(ListNode *head){
+    ListNode *isCycle(ListNode *head){
         if(head==NULL || head->next==NULL)
-            return false;
+            return NULL;
 
         ListNode *slow=head, *fast=head;
         while(fast && fast->next){
             slow = slow->next;
             fast = fast->next->next;
             if(slow==fast)
-                return true;
+                return fast;
         }
-        return false;
+        return NULL;
     }
     ListNode *detectCycle(ListNode *head) {
         ListNode* ans = NULL;
-        if(isCycle(head)==false)
+        ListNode* fast = isCycle(head);
+        if(!fast)
             return ans;
-        unordered_map<ListNode*, bool> mpp;
+        ListNode* slow = fast;
         while(head){
-            if(mpp.find(head)!=mpp.end())
-                return head;
-            mpp[head] = true;
+            do{
+                if(slow==head)
+                    return slow;
+                slow = slow->next;
+            }while(slow!=fast);
             head = head->next;
         }
         return ans;
