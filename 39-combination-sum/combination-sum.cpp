@@ -2,7 +2,7 @@ class Solution {
 public:
     void subset(vector<int> &arr, int ind, int n, vector<int> &temp, vector<vector<int>> &ans, int sum, int target){
         if(sum==target){
-            ans.push_back(vector<int> (temp));
+            ans.push_back(temp);
             return;
         }
         if(ind>=n || sum>target)
