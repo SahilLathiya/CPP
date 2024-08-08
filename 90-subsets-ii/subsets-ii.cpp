@@ -1,34 +1,26 @@
 class Solution {
 public:
-    void subset(vector<int> &arr, int ind, int n, vector<int> &temp, set<vector<int>> &ans){
-        if(ind>=n){
-            // sort(temp.begin(), temp.end());
-            ans.insert(temp);
-            return;
+    void subset(vector<int> &arr, int ind, int n, vector<int> &temp, vector<vector<int>> &ans){
+
+        ans.push_back(temp);
+
+        for(int i=ind;i<n;i++){
+            if(i!=ind && arr[i-1]==arr[i])
+                continue;
+            temp.push_back(arr[i]);
+            subset(arr, i+1, n, temp, ans);
+            temp.pop_back();
         }
-        
-        //take
-        temp.push_back(arr[ind]);
-        subset(arr, ind+1, n, temp, ans);
-        temp.pop_back();
+
         //not take
-        subset(arr, ind+1, n, temp, ans);
+        // subset(arr, ind+1, n, temp, ans);
     }
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-        set<vector<int>> ans;
+        vector<vector<int>> ans;
         vector<int> temp;
+        sort(nums.begin(), nums.end());
         subset(nums, 0, nums.size(), temp, ans);
-        set<vector<int>> t;
-        cout<<ans.size();
-        for(auto a:ans){
-            sort(a.begin(),a.end());
-            t.insert(a);
-        }
-        cout<<t.size();
-        vector<vector<int>> ans2;
-        for(auto a:t){
-            ans2.push_back(a);
-        }
-        return ans2;
+        
+        return ans;
     }
 };
