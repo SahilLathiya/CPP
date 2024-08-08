@@ -1,6 +1,6 @@
 class Solution {
 public:
-    void subset(vector<int> &arr, int ind, int n, vector<int> temp, vector<vector<int>> &ans, int sum, int target){
+    void subset(vector<int> &arr, int ind, int n, vector<int> &temp, vector<vector<int>> &ans, int sum, int target){
         if(sum==target){
             ans.push_back(vector<int> (temp));
             return;
@@ -9,13 +9,18 @@ public:
             return;
 
         subset(arr, ind+1, n, temp, ans, sum, target);
-
+        int cnt = 0;
         while(sum<=target){
+            cnt++;
             sum+=arr[ind];
             temp.push_back(arr[ind]);
             subset(arr, ind+1, n, temp, ans, sum, target);
             // temp.pop_back();
         }
+        while(cnt--){
+            temp.pop_back();
+        }
+        
 
         // subset(arr, ind+1, n, temp, ans, sum, target);
     }
