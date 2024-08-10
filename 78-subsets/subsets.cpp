@@ -1,25 +1,24 @@
 class Solution {
 public:
-
-    void solve(vector<int>& nums, vector<int> output, int index, vector<vector<int>>& ans){
-        if(index>=nums.size()){
-            ans.push_back(output);
+    void solve(vector<int>& arr, int ind, int n, vector<int> &temp, vector<vector<int>> &ans){
+        if(ind>=n){
+            ans.push_back(temp);
             return;
         }
+        
+        // Take
+        temp.push_back(arr[ind]);
+        solve(arr, ind+1, n, temp, ans);
+        temp.pop_back();
 
-        //not taken
-        solve(nums,output,index+1,ans);
-
-        //taken
-        output.push_back(nums[index]);
-        solve(nums,output,index+1,ans);
+        //Not take
+        solve(arr, ind+1, n, temp, ans);
 
     }
-    vector<vector<int>> subsets(vector<int>& nums) {
+    vector<vector<int>> subsets(vector<int>& arr) {
         vector<vector<int>> ans;
-        vector<int> output;
-        int index = 0;
-        solve(nums,output,index,ans);
+        vector<int> temp;
+        solve(arr, 0, arr.size(), temp, ans);
         return ans;
     }
 };
