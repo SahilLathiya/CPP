@@ -1,11 +1,13 @@
 class Solution {
 public:
+    void solve(vector<char>& s, int i, int n){
+        if(i>n/2)
+            return;
+
+        swap(s[i], s[n-i]);
+        solve(s, i+1, n);
+    }
     void reverseString(vector<char>& s) {
-        int low = 0, high = s.size()-1;
-        while(low<high){
-            swap(s[low],s[high]);
-            low++;
-            high--;
-        }
+        solve(s, 0, s.size()-1);
     }
 };
