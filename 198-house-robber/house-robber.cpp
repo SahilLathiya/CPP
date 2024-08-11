@@ -18,6 +18,18 @@ public:
     int rob(vector<int>& arr) {
         int n = arr.size();
         vector<int> dp(n+1, -1);
-        return solve(arr, n-1, n, dp);
+        // return solve(arr, n-1, n, dp);
+        if(n==0)
+            return 0;
+            
+        dp[0] = arr[0];
+
+        for(int i=1;i<n;i++){
+            if(i>1)
+                dp[i] = max(arr[i] + dp[i-2], dp[i-1]);
+            else
+                dp[i] = max(arr[i], dp[i-1]);
+        }
+        return dp[n-1];
     }
 };
