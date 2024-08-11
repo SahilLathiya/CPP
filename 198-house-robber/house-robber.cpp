@@ -17,19 +17,32 @@ public:
     }
     int rob(vector<int>& arr) {
         int n = arr.size();
-        vector<int> dp(n+1, -1);
+        // vector<int> dp(n+1, -1);
         // return solve(arr, n-1, n, dp);
+        // if(n==0)
+        //     return 0;
+            
+        // dp[0] = arr[0];
+
+        // for(int i=1;i<n;i++){
+        //     if(i>1)
+        //         dp[i] = max(arr[i] + dp[i-2], dp[i-1]);
+        //     else
+        //         dp[i] = max(arr[i], dp[i-1]);
+        // }
+        // return dp[n-1];
+        
         if(n==0)
             return 0;
-            
-        dp[0] = arr[0];
 
+        int prev1 = arr[0];
+        int prev2 = 0;
+        int prev = 0;
         for(int i=1;i<n;i++){
-            if(i>1)
-                dp[i] = max(arr[i] + dp[i-2], dp[i-1]);
-            else
-                dp[i] = max(arr[i], dp[i-1]);
+            prev = max(arr[i] + prev2, prev1);
+            prev2 = prev1;
+            prev1 = prev;
         }
-        return dp[n-1];
+        return prev1;
     }
 };
