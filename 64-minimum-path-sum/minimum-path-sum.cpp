@@ -20,6 +20,23 @@ public:
             for(int j=0;j<n;j++)
                 dp[i][j] = -1;
 
-        return solve(arr, m-1, n-1, dp);
+        // return solve(arr, m-1, n-1, dp);
+        dp[0][0] = arr[0][0];
+
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(i==0 && j==0)
+                    continue;
+                long long int l = INT_MAX, r = INT_MAX;
+                if(i>0){
+                    l = arr[i][j] + (long long int)dp[i-1][j];
+                }
+                if(j>0){
+                    r = arr[i][j] + (long long int)dp[i][j-1];
+                }
+                dp[i][j] = min(l,r);
+            }
+        }
+        return dp[m-1][n-1];
     }
 };
