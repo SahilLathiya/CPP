@@ -19,6 +19,25 @@ public:
             for(int j=0;j<n;j++)
                 dp[i][j] = -1;
 
-        return solve(arr, m-1,n-1, dp);
+        // return solve(arr, m-1,n-1, dp);
+
+        dp[0][0] = 1;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(i==0 && j==0)
+                    continue;
+                int l=0,r=0;
+                if(i>0 && arr[i-1][j]!=1){
+                    l = dp[i-1][j];
+                }
+                if(j>0 && arr[i][j-1]!=1){
+                    r = dp[i][j-1];
+                }
+                dp[i][j] = l+r;
+            }
+        }
+        if(arr[m-1][n-1]==1)
+            return 0;
+        return dp[m-1][n-1];
     }
 };
