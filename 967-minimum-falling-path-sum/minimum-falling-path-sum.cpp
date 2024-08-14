@@ -20,17 +20,20 @@ public:
         int n = arr.size();
         int m = n;
         int ans = INT_MAX;
-        vector<vector<int>> dp(n, vector<int> (m));
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                dp[i][j] = INT_MIN;
-            }
-        }
+        // vector<vector<int>> dp(n, vector<int> (m));
+        // for(int i=0;i<n;i++){
+        //     for(int j=0;j<m;j++){
+        //         dp[i][j] = INT_MIN;
+        //     }
+        // }
         // for(int i=0;i<m;i++)
         //     ans = min(ans, solve(arr, n-1, i, n, dp));
         // return ans;
+        
+        vector<int> temp(m);
+        vector<int> prev(m);
         for(int i=0;i<m;i++)
-            dp[0][i] = arr[0][i];
+            prev[i] = arr[0][i];
         
         for(int i=1;i<n;i++){
             for(int j=0;j<m;j++){
@@ -38,20 +41,21 @@ public:
                 long long int y = INT_MAX;
                 long long int z = INT_MAX;
                 if(j>0)
-                    x = (long long int)arr[i][j] + dp[i-1][j-1];
+                    x = (long long int)arr[i][j] + prev[j-1];
                 
-                y = (long long int)arr[i][j] + dp[i-1][j];
+                y = (long long int)arr[i][j] + prev[j];
                 
                 if(j<m-1)
-                    z = (long long int)arr[i][j] + dp[i-1][j+1];
+                    z = (long long int)arr[i][j] + prev[j+1];
 
-                dp[i][j] = min(x, min(y,z));
+                temp[j] = min(x, min(y,z));
             }
+            prev = temp;
         }
 
         // int ans = INT_MAX;
         for(int i=0;i<m;i++)
-            ans = min(ans, dp[n-1][i]);
+            ans = min(ans, prev[i]);
         return ans;
     }
 };
