@@ -26,8 +26,32 @@ public:
                 dp[i][j] = INT_MIN;
             }
         }
+        // for(int i=0;i<m;i++)
+        //     ans = min(ans, solve(arr, n-1, i, n, dp));
+        // return ans;
         for(int i=0;i<m;i++)
-            ans = min(ans, solve(arr, n-1, i, n, dp));
+            dp[0][i] = arr[0][i];
+        
+        for(int i=1;i<n;i++){
+            for(int j=0;j<m;j++){
+                long long int x = INT_MAX;
+                long long int y = INT_MAX;
+                long long int z = INT_MAX;
+                if(j>0)
+                    x = (long long int)arr[i][j] + dp[i-1][j-1];
+                
+                y = (long long int)arr[i][j] + dp[i-1][j];
+                
+                if(j<m-1)
+                    z = (long long int)arr[i][j] + dp[i-1][j+1];
+
+                dp[i][j] = min(x, min(y,z));
+            }
+        }
+
+        // int ans = INT_MAX;
+        for(int i=0;i<m;i++)
+            ans = min(ans, dp[n-1][i]);
         return ans;
     }
 };
