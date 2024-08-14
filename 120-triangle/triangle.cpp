@@ -29,33 +29,35 @@ public:
         // return mini;
 
 
-        vector<vector<int>> dp(m, vector<int> (n));
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                dp[i][j] = -1;
-            }
-        }
-
-        dp[0][0] = arr[0][0];
+        // vector<vector<int>> dp(m, vector<int> (n));
+        // for(int i=0;i<m;i++){
+        //     for(int j=0;j<n;j++){
+        //         dp[i][j] = -1;
+        //     }
+        // }
+        vector<int> temp(n);
+        vector<int> prev(n);
+        temp[0] = arr[0][0];
         for(int i=0;i<m;i++){
             for(int j=0;j<=i ;j++){
                 if(i==0 && j==0)
                     continue;
                 int l = INT_MAX, r = INT_MAX;
                 if(i>0 && i!=j){
-                    l = arr[i][j] + dp[i-1][j];
+                    l = arr[i][j] + prev[j];
                 }
                 if(j>0){
-                    r = arr[i][j] + dp[i-1][j-1];
+                    r = arr[i][j] + prev[j-1];
                 }
-                dp[i][j] = min(l,r);
+                temp[j] = min(l,r);
             }
+            prev = temp;
         }
 
         int ans = INT_MAX;
         for(int i=0;i<n;i++){
             // cout<<dp[m-1][i]<<' ';
-            ans = min(ans, dp[m-1][i]);
+            ans = min(ans, prev[i]);
         }
         return ans;
     }
