@@ -8,44 +8,38 @@
  */
 class Solution {
 public:
-    int getCnt(ListNode *headA){
-        int cnt = 0;
-        while(headA){
-            cnt++;
-            headA = headA->next;
-        }
-        return cnt;
-    }
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        int c1 = getCnt(headA);
-        int c2 = getCnt(headB);
-        // cout<<c1<<' '<<c2<<endl;
-        // cout<<headA->val<<' '<<headB->val<<endl;
+        int len1 = 0;
+        int len2 = 0;
+        ListNode * ptrA = headA;
+        ListNode * ptrB = headB;
+        while(ptrA){
+            len1++;
+            ptrA = ptrA->next;
+        }
+        while(ptrB){
+            len2++;
+            ptrB = ptrB->next;
+        }
 
-        ListNode *a = headA;
-        ListNode *b = headB;
+        ptrA = headA;
+        ptrB = headB;
+        while(ptrA && len1>len2){
+            len1--;
+            ptrA = ptrA->next;
+        }
+        while(ptrB && len1<len2){
+            len2--;
+            ptrB = ptrB->next;
+        }
 
-        ListNode* ans = NULL;
-        if(c1<c2){
-            int diff = c2-c1;
-            while(diff){
-                b = b->next;
-                diff--;
-            }
+        while(ptrA && ptrB){
+            if(ptrA==ptrB)
+                return ptrA;
+            ptrA = ptrA->next;
+            ptrB = ptrB->next;
+
         }
-        else{
-            int diff = c1-c2;
-            while(diff){
-                a = a->next;
-                diff--;
-            }
-        }
-        while(a){
-            if(a==b)
-                return a;
-            a = a->next;
-            b = b->next;
-        }
-        return ans;
+        return NULL;
     }
 };
