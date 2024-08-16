@@ -11,57 +11,36 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        int carry =0;
-        int sum =0;
-        int ans = 0;
-        ListNode* head = NULL;
-        ListNode* ptr;
-        ListNode* prev;
-
+        int sum = 0;
+        int carry = 0;
+        ListNode * ans = new ListNode();
+        ListNode * ptr = ans;
         while(l1 && l2){
-            sum = (l1->val+l2->val);
-            ans = (sum + carry)%10;
-            carry = (sum + carry)/10;
-
-            ptr = new ListNode(ans);
-            if(!head)
-                head = ptr;
-            else{
-                prev->next = ptr;
-            }
-            prev = ptr;
-
+            sum = (l1->val + l2->val + carry)%10;
+            carry = (l1->val + l2->val + carry)/10;
+            ptr->next = new ListNode(sum);
+            ptr = ptr->next;
             l1 = l1 -> next;
             l2 = l2 -> next;
         }
 
         while(l1){
-            sum = (l1->val)%10;
-            ans = (sum + carry)%10;
-            carry = (sum + carry)/10;
-            
-            ptr = new ListNode(ans);
-            prev->next = ptr;
-            prev = ptr;
-            l1 = l1->next;
+            sum = (l1->val + carry)%10;
+            carry = (l1->val + carry)/10;
+            ptr->next = new ListNode(sum);
+            ptr = ptr->next;
+            l1 = l1 -> next;
         }
         while(l2){
-            sum = (l2->val)%10;
-            ans = (sum + carry)%10;
-            carry = (sum + carry)/10;
-            ptr = new ListNode(ans);
-            prev->next = ptr;
-            prev = ptr;
-            l2 = l2->next;
+            sum = (l2->val + carry)%10;
+            carry = (l2->val + carry)/10;
+            ptr->next = new ListNode(sum);
+            ptr = ptr->next;
+            l2 = l2 -> next;
         }
-
         if(carry){
-            ptr = new ListNode(carry);
-            prev->next = ptr;
-            prev = ptr;
+            ptr->next = new ListNode(carry);
         }
-
-
-        return head;
+        return ans->next;
     }
 };
