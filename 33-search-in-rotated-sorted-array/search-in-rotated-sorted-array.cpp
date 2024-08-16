@@ -1,36 +1,37 @@
 class Solution {
 public:
-    int findPivote(vector<int>& nums){
-        int low = 0, high = nums.size()-1;
-        int mid = low + (high - low)/2;
-        while(low<high){
-            if(nums[mid]>nums[high]){
-                low = mid+1;
-            }else{
-                high = mid;
+    int breakPoint(vector<int>& arr){
+        int n = arr.size();
+        int l = 0, h = n-1;
+        while(l<h){
+            int mid = (h-l)/2 + l;
+            if(arr[mid]>=arr[0]){
+                l = mid + 1;
             }
-            mid = low + (high - low)/2;
+            else{
+                h = mid;
+            }
         }
-        return low;
+        return l;
     }
-    int binarySearch(vector<int>& nums, int low, int high, int target){
-        int mid = low + (high - low)/2;
-        while(low<=high){
-            if(nums[mid]==target)
+    int binarySearch(vector<int>& arr, int l, int h, int t){
+        while(l<=h){
+            int mid = (h-l)/2 + l;
+            if(arr[mid]==t)
                 return mid;
-            else if(nums[mid]<target)
-                low = mid+1;
+            else if(arr[mid]>t)
+                h = mid - 1;
             else
-                high = mid - 1;
-            mid = low + (high - low)/2;
+                l = mid + 1;
         }
         return -1;
     }
-    int search(vector<int>& nums, int target) {
-        int pivot = findPivote(nums);
-        if(nums[pivot]<=target && target<=nums[nums.size()-1])
-            return binarySearch(nums,pivot,nums.size()-1,target);
-        else
-            return binarySearch(nums,0,pivot-1,target);
+    int search(vector<int>& arr, int t) {
+        int b = breakPoint(arr);
+        cout<<b;
+        int x = binarySearch(arr, 0, b-1, t);
+        if(x!=-1)
+            return x;
+        return binarySearch(arr, b, arr.size()-1, t);
     }
 };
