@@ -19,24 +19,26 @@ public:
         //     return -1;
         // return ans;
 
-        vector<vector<int>> dp(n, vector<int>(amount+1, INT_MAX));
 
-        for(int i=0;i<n;i++)
-            dp[i][0] = 0;
+        vector<int> temp(amount+1, INT_MAX), prev(amount+1, INT_MAX);
+        // for(int i=0;i<n;i++)
+        //     dp[i][0] = 0;
+        temp[0] = 0;
         
         for(int ind=0;ind<n;ind++){
             for(int sum=1;sum<=amount;sum++){
                 long long int l = INT_MAX;
                 if(sum>=arr[ind])
-                    l = 1 + (long long int)dp[ind][sum-arr[ind]];
+                    l = 1 + (long long int)temp[sum-arr[ind]];
                 long long int r = INT_MAX;
                 if(ind>0)
-                    r = dp[ind-1][sum];
-                dp[ind][sum] = min(l,r);
+                    r = prev[sum];
+                temp[sum] = min(l,r);
             }
+            prev = temp;
         }
-        if(dp[n-1][amount]==INT_MAX)
+        if(prev[amount]==INT_MAX)
             return -1;
-        return dp[n-1][amount];
+        return prev[amount];
     }
 };
