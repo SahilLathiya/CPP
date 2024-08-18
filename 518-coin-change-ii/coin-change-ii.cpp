@@ -22,9 +22,9 @@ public:
         // vector<vector<int>> dp(n, vector<int> (amount+1, -1));
         // return solve(arr, n-1, amount, dp);
         
-        vector<vector<int>> dp(n, vector<int> (amount+1, 0));
-        for(int i=0;i<n;i++)
-            dp[i][0] = 1;
+        vector<int> temp(amount+1, 0), prev(amount+1, 0);
+        // for(int i=0;i<n;i++)
+        temp[0] = 1;
 
         for(int ind=0; ind<n; ind++){
             for(int j=0; j<=amount; j++){
@@ -34,16 +34,17 @@ public:
                 //take
                 int l = 0;
                 if(j>=arr[ind])
-                    l = dp[ind][j-arr[ind]];
+                    l = temp[j-arr[ind]];
 
                 //not take
                 int r = 0;
                 if(ind>0)
-                    r = dp[ind-1][j];
+                    r = prev[j];
                 
-                dp[ind][j] = l+r;
+                temp[j] = l+r;
             }
+            prev = temp;
         }
-        return dp[n-1][amount];
+        return prev[amount];
     }
 };
