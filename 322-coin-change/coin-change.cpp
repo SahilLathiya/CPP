@@ -13,10 +13,30 @@ public:
     }
     int coinChange(vector<int>& arr, int amount) {
         int n = arr.size();
-        vector<vector<int>> dp(n, vector<int>(amount+1, -1));
-        int ans = solve(arr, n-1, amount, dp);
-        if(ans==INT_MAX)
+        // vector<vector<int>> dp(n, vector<int>(amount+1, -1));
+        // int ans = solve(arr, n-1, amount, dp);
+        // if(ans==INT_MAX)
+        //     return -1;
+        // return ans;
+
+        vector<vector<int>> dp(n, vector<int>(amount+1, INT_MAX));
+
+        for(int i=0;i<n;i++)
+            dp[i][0] = 0;
+        
+        for(int ind=0;ind<n;ind++){
+            for(int sum=1;sum<=amount;sum++){
+                long long int l = INT_MAX;
+                if(sum>=arr[ind])
+                    l = 1 + (long long int)dp[ind][sum-arr[ind]];
+                long long int r = INT_MAX;
+                if(ind>0)
+                    r = dp[ind-1][sum];
+                dp[ind][sum] = min(l,r);
+            }
+        }
+        if(dp[n-1][amount]==INT_MAX)
             return -1;
-        return ans;
+        return dp[n-1][amount];
     }
 };
