@@ -25,26 +25,27 @@ public:
         // return solve(s1, s2, n1-1, n2-1, dp);
 
 
-        vector<vector<int>> dp(n1, vector<int> (n2, 0));
+        vector<int> temp(n2, 0), prev(n2, 0);
         for(int i=0;i<n1;i++){
             for(int j=0;j<n2;j++){
                 //match
                 int l = 0;
                 int r1 = 0, r2 = 0;
                 if(i>0 && j>0 && s1[i]==s2[j])
-                    l = 1 + dp[i-1][j-1];
+                    l = 1 + prev[j-1];
                 else if(s1[i]==s2[j])
                     l = 1;
                 else{
                     if(i>0)
-                        r1 = dp[i-1][j];
+                        r1 = prev[j];
                     if(j>0)
-                        r2 = dp[i][j-1];
+                        r2 = temp[j-1];
                 }
-                dp[i][j] = max(l, max(r1, r2));
+                temp[j] = max(l, max(r1, r2));
             }
+            prev = temp;
         }
-        return dp[n1-1][n2-1];
+        return prev[n2-1];
         
     }
 };
