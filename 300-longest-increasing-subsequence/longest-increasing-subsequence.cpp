@@ -33,7 +33,7 @@ public:
         // return solve(arr, n-1, maxi+1, dp);
 
 
-        vector<int> temp(maxi+2, 0), prev(maxi+2, 0);
+        vector<int> prev(maxi+2, 0);
 
         for(int i=0;i<n;i++){
             for(int j=0;j<=maxi+1;j++){
@@ -43,9 +43,8 @@ public:
                     l = 1 + prev[arr[i]];
                 //not take
                 int r = prev[j];
-                temp[j] = max(l, r);
+                prev[j] = max(l, r);
             }
-            prev = temp;
         }
         return prev[maxi+1];
     }
