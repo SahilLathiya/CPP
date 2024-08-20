@@ -29,7 +29,23 @@ public:
         }
         // cout<<endl<<maxi;
 
-        vector<vector<int>> dp(n, vector<int>(maxi+2, -1));
-        return solve(arr, n-1, maxi+1, dp);
+        // vector<vector<int>> dp(n, vector<int>(maxi+2, -1));
+        // return solve(arr, n-1, maxi+1, dp);
+
+
+        vector<vector<int>> dp(n+1, vector<int>(maxi+2, 0));
+
+        for(int i=0;i<n;i++){
+            for(int j=0;j<=maxi+1;j++){
+                //take
+                int l = 0;
+                if(arr[i]<j)
+                    l = 1 + dp[i][arr[i]];
+                //not take
+                int r = dp[i][j];
+                dp[i+1][j] = max(l, r);
+            }
+        }
+        return dp[n][maxi+1];
     }
 };
