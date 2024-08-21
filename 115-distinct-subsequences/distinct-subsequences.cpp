@@ -27,24 +27,28 @@ public:
         // vector<vector<int>> dp(n, vector<int> (m ,-1));
         // return solve(s, t, n-1, m-1, dp);
 
-        vector<vector<int>> dp(n+1, vector<int> (m+1, 0));
-        for(int i=0;i<=n;i++)
-            dp[i][0] = 1;
+        // vector<vector<int>> dp(n+1, vector<int> (m+1, 0));
+        vector<int> temp(m+1, 0), prev(m+1, 0);
+        // for(int i=0;i<=n;i++)
+        //     dp[i][0] = 1;
 
+        prev[0] = 1;
+        temp[0] = 1;
         for(int i=1;i<=n;i++){
             for(int j=1;j<=m;j++){
                 if(s[i-1]==t[j-1]){
                     //take
-                    int l = dp[i-1][j-1];
+                    int l = prev[j-1];
 
                     //not take
-                    int r = dp[i-1][j];
-                    dp[i][j] = (long long int)l+r;
+                    int r = prev[j];
+                    temp[j] = (long long int)l+r;
                 }
                 else
-                    dp[i][j] = dp[i-1][j];
+                    temp[j] = prev[j];
             }
+            prev = temp;
         }
-        return dp[n][m];
+        return prev[m];
     }   
 };
