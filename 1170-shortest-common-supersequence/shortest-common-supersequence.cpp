@@ -64,7 +64,7 @@ public:
                 i--;
                 j--;
             }
-            else if(dp[i-1][j]>=dp[i][j-1]){ //UP
+            else if(dp[i-1][j]>dp[i][j-1]){ //UP
                 ans+=s1[i-1];
                 i--;
             }
