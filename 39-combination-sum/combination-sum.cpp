@@ -1,36 +1,28 @@
 class Solution {
 public:
-    void subset(vector<int> &arr, int ind, int n, vector<int> &temp, vector<vector<int>> &ans, int sum, int target){
-        if(sum==target){
+    void solve(vector<int>& arr, int ind, vector<int>& temp, vector<vector<int>> &ans, int target){
+        if(target==0){
             ans.push_back(temp);
             return;
         }
-        if(ind>=n || sum>target)
+        if(ind<0)
             return;
 
-        subset(arr, ind+1, n, temp, ans, sum, target);
-        int cnt = 0;
-        while(sum<=target){
-            cnt++;
-            sum+=arr[ind];
+        //take
+        if(target>=arr[ind]){
             temp.push_back(arr[ind]);
-            subset(arr, ind+1, n, temp, ans, sum, target);
-            // temp.pop_back();
-        }
-        while(cnt--){
+            solve(arr, ind, temp, ans, target-arr[ind]);
             temp.pop_back();
         }
-        
 
-        // subset(arr, ind+1, n, temp, ans, sum, target);
+        //not take
+        solve(arr, ind-1, temp, ans, target);
     }
-
     vector<vector<int>> combinationSum(vector<int>& arr, int target) {
-        sort(arr.begin(),arr.end());
         vector<vector<int>> ans;
         vector<int> temp;
-        subset(arr, 0, arr.size(), temp, ans, 0, target);
-        
+        int n = arr.size();
+        solve(arr, n-1, temp, ans, target);
         return ans;
     }
 };
