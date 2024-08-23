@@ -31,31 +31,32 @@ public:
         // return solve(arr, 0, n, 1, fee, dp);
 
         
-        vector<vector<int>> dp(n+1, vector<int> (2, 0));
-        dp[n][0] = 0;
-        dp[n][1] = 0;
+        vector<int> temp(2, 0), prev(2, 0);
+        prev[0] = 0;
+        prev[1] = 0;
 
         for(int i=n-1;i>=0;i--){
             for(int j=1;j>=0;j--){
                 int profit = 0;
                 if(j){
                     //buy
-                    int l = -arr[i] + dp[i+1][0];
+                    int l = -arr[i] + prev[0];
                     //not buy
-                    int r = dp[i+1][1];
+                    int r = prev[1];
                     profit = max(l, r);
                 }
                 else{
                     //sell
-                    int l = arr[i] + dp[i+1][1] - fee;
+                    int l = arr[i] + prev[1] - fee;
 
                     //not sell
-                    int r = dp[i+1][0] ;
+                    int r = prev[0] ;
                     profit = max(l, r);
                 }
-                dp[i][j] = profit;
+                temp[j] = profit;
             }
+            prev = temp;
         }
-        return dp[0][1];
+        return prev[1];
     }
 };
