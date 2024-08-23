@@ -26,7 +26,32 @@ public:
     }
     int maxProfit(vector<int>& arr) {
         int n = arr.size();
-        vector<vector<int>> dp(n, vector<int>(2, -1));
-        return solve(arr, 0, n, 1, dp);
+        // vector<vector<int>> dp(n, vector<int>(2, -1));
+        // return solve(arr, 0, n, 1, dp);
+
+        vector<vector<int>> dp(n+1, vector<int>(2, 0));
+        dp[n][0] = 0;
+        dp[n][1] = 0;
+        for(int i=n-1;i>=0;i--){
+            for(int j=1;j>=0;j--){
+                int profit = 0;
+                if(j){
+                    //take (buy)
+                    int l = -arr[i] + dp[i+1][0];
+                    //not take
+                    int r = dp[i+1][1];
+                    profit = max(l, r);
+                }
+                else{
+                    // take (sell)
+                    int l = arr[i] + dp[i+1][1];
+                    //not take
+                    int r = dp[i+1][0];
+                    profit = max(l, r);
+                }
+                dp[i][j] = profit;
+            }
+        }
+        return dp[0][1];
     }
 };
