@@ -32,26 +32,21 @@ public:
         // vector<vector<int>> dp(n, vector<int>(maxi+2, -1));
         // return solve(arr, n-1, maxi+1, dp);
 
-        vector<vector<int>> dp(n+1, vector<int>(maxi+2, 0));
+        vector<int> temp(maxi+2, 0), prev(maxi+2, 0);
         for(int i = 0;i<n;i++){
             for(int j = 0; j<=maxi+1;j++){
                 int l = 0;
                 //take
                 if(arr[i]<j){
-                    l = 1 + dp[i][arr[i]];
+                    l = 1 + prev[arr[i]];
                 }
                 //not take
-                int r = dp[i][j];
-                dp[i+1][j] = max(l, r);
-                // cout<<dp[i+1][j]<<' ';
+                int r = prev[j];
+                temp[j] = max(l, r);
             }
-            // cout<<endl;
+            prev = temp;
         }
-        // for (auto i : dp[n])
-        //     cout<<i<<' ';
-        // cout<<dp.size()<<' ';
-        // cout<<dp[0].size();
-        return dp[n][maxi+1];
-        // return 0;
+        
+        return prev[maxi+1];
     }
 };
