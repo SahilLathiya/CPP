@@ -30,15 +30,14 @@ public:
         // vector<vector<vector<int>>> dp(n, vector<vector<int>> (2, vector<int> (3, -1)));
         // return solve(arr, 0, n, 1, 2, dp);
         
-        vector<vector<vector<int>>> dp(n+1, vector<vector<int>> (2, vector<int> (k1+1, 0)));
+        vector<vector<int>> temp(2, vector<int> (k1+1, 0)), prev(2, vector<int> (k1+1, 0));
         for(int i=0;i<2;i++){
             for(int j=0;j<k1;j++)
-                dp[n][i][j] = 0;
+                prev[i][j] = 0;
         } 
-        for(int i=0;i<n+1;i++){
-            dp[i][0][0] = 0;
-            dp[i][1][0] = 0;
-        }
+        temp[0][0] = 0;
+        temp[1][0] = 0;
+        
 
         for(int i=n-1;i>=0;i--){
             for(int j=1;j>=0;j--){
@@ -46,23 +45,24 @@ public:
                     int profit = 0;
                     if(j){
                         //buy
-                        int l = -arr[i] + dp[i+1][0][k];
+                        int l = -arr[i] + prev[0][k];
                         //not buy
-                        int r = dp[i+1][1][k];
+                        int r = prev[1][k];
                         profit = max(l, r);
                     }
                     else{
                         //sell
-                        int l = arr[i] + dp[i+1][1][k-1];
+                        int l = arr[i] + prev[1][k-1];
 
                         //not sell
-                        int r = dp[i+1][0][k];
+                        int r = prev[0][k];
                         profit = max(l, r);
                     }
-                    dp[i][j][k] = profit;
+                    temp[j][k] = profit;
                 }
             }
+            prev = temp;
         }
-        return dp[0][1][k1];
+        return prev[1][k1];
     }
 };
