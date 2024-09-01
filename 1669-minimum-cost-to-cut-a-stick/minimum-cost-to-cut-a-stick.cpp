@@ -23,7 +23,7 @@ public:
         sort(arr.begin(), arr.end());
         arr.insert(arr.begin(), 0);
         arr.push_back(n);
-        vector<vector<int>> dp(size+2, vector<int>(size+2, -1));
+        vector<vector<int>> dp(size+1, vector<int>(size+1, -1));
         int ans = solve(arr, 1, size, dp);
 
         return ans;
