@@ -19,8 +19,28 @@ public:
         int n = arr.size();
         arr.insert(arr.begin(), 1);
         arr.push_back(1);
-        vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
-        int ans = solve(arr, 1, n, dp);
-        return ans;
+        // vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
+        // int ans = solve(arr, 1, n, dp);
+        // return ans;
+
+        vector<vector<int>> dp(n+2, vector<int>(n+2, 0));
+
+        for(int i=n;i>=1;i--){
+            for(int j=1;j<=n;j++){
+                if(i>j)
+                    continue;
+
+                int maxi = -1e9;
+                for(int ind=i;ind<=j;ind++){
+                    int cost = arr[i-1] * arr[ind] * arr[j+1];
+                    int l = dp[i][ind-1];
+                    int r = dp[ind+1][j];
+                    maxi = max(maxi, cost+l+r);
+                }
+                dp[i][j] = maxi;
+            }
+        }
+
+        return dp[1][n];
     }
 };
