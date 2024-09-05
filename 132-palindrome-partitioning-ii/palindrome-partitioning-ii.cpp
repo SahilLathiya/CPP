@@ -29,7 +29,22 @@ public:
     }
     int minCut(string s) {
         int n = s.size();
-        vector<int> dp(n, -1);
-        return solve(s, 0, n, dp)-1;
+        // vector<int> dp(n, -1);
+        // return solve(s, 0, n, dp)-1;
+
+        vector<int> dp(n+1, 0);
+        for(int i=n-1;i>=0;i--){
+            int mini = 1e9;
+            for(int j=i;j<n;j++){
+                int sub_ans = 0;
+                if(isPalindrom(s,i,j)){
+                    sub_ans = 1 + dp[j+1];
+                    mini = min(mini, sub_ans);
+                    // cout<<"HI";
+                }
+            }
+            dp[i] = mini;
+        }
+        return dp[0]-1;
     }
 };
