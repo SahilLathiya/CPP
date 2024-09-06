@@ -11,18 +11,15 @@
  */
 class Solution {
 public:
-    void preorder(TreeNode* root, int *cnt, int *ans){
-        if(!root)
-            return;
-        (*cnt)++;
-        preorder(root->left, cnt, ans);
-        preorder(root->right, cnt, ans);
-        *ans = max(*ans,*cnt);
-        (*cnt)--;
+    int findHeight(TreeNode* root){
+        if(root==NULL)
+            return 0;
+        int lh = findHeight(root->left);
+        int rh = findHeight(root->right);
+
+        return 1 + max(lh, rh);
     }
     int maxDepth(TreeNode* root) {
-        int cnt = 0, ans = 0;
-        preorder(root, &cnt, &ans);
-        return ans;
+        return findHeight(root);
     }
 };
