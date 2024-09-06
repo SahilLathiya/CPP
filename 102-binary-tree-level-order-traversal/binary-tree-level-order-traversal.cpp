@@ -14,32 +14,27 @@ public:
     vector<vector<int>> levelOrder(TreeNode* root) {
         vector<vector<int>> ans;
         vector<int> t;
-        queue<TreeNode*> q;
         if(!root)
             return ans;
+        queue<TreeNode*> q;
         q.push(root);
         q.push(NULL);
-
         while(!q.empty()){
-            TreeNode* temp = q.front();
+            TreeNode * node = q.front();
             q.pop();
 
-
-            if(temp==NULL){
+            if(node==NULL){
                 ans.push_back(t);
                 t.clear();
-                cout<<endl;
-                if(!q.empty()){
+                if(!q.empty())
                     q.push(NULL);
-                }
             }
             else{
-                cout<<temp->val<<' ';
-                t.push_back(temp->val);
-                if(temp->left)
-                    q.push(temp->left);
-                if(temp->right)
-                    q.push(temp->right);
+                t.push_back(node->val);
+                if(node->left)
+                    q.push(node->left);
+                if(node->right)
+                    q.push(node->right);
             }
         }
         return ans;
