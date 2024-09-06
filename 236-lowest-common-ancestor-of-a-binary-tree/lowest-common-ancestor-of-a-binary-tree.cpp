@@ -9,40 +9,22 @@
  */
 class Solution {
 public:
-    bool findNode(TreeNode *root, TreeNode*x, vector<TreeNode*> & path){
+    TreeNode* preOrder(TreeNode* root, TreeNode* p, TreeNode* q){
         if(root==NULL)
-            return false;
-        if(root==x){
-            path.push_back(root);
-            return true;
-        }
-        path.push_back(root);
-        bool l = findNode(root->left, x, path);
+            return NULL;
+        if(root==p || root==q)
+            return root;
+        TreeNode* l = preOrder(root->left, p, q);
+        TreeNode* r = preOrder(root->right, p, q);
+        if(l && r)
+            return root;
         if(l)
-            return true;
-        bool r = findNode(root->right, x, path);
+            return l;
         if(r)
-            return true;
-        path.pop_back();
-        return false;
+            return r;
+        return NULL;
     }
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        vector<TreeNode*> path1;
-        vector<TreeNode*> path2;
-        findNode(root, p, path1);
-        findNode(root, q, path2);
-        // for(auto x:path1)
-        //     cout<<x->val<<' ';
-        // cout<<endl;
-        // for(auto x:path2)
-        //     cout<<x->val<<' ';
-        TreeNode * ans;
-        for(int i=0;i<min(path1.size(), path2.size());i++){
-            if(path1[i]==path2[i])
-                ans = path1[i];
-            else
-                break;
-        }
-        return ans;
+        return preOrder(root, p, q);
     }
 };
