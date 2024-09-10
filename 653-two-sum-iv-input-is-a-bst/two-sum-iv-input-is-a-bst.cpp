@@ -9,30 +9,80 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+class BSTIterator {
+public:
+    stack<TreeNode*> st;
+    BSTIterator(TreeNode* root) {
+        TreeNode* r = root;
+        while(r){
+            st.push(r);
+            r = r->left;
+        }
+    }
+    
+    int next() {
+        TreeNode * node = st.top();
+        st.pop();
+        if(node->right){
+            TreeNode* r = node->right;
+            while(r){
+                st.push(r);
+                r = r->left;
+            }
+        }
+        return node->val;
+    }
+    
+    bool hasNext() {
+        return !st.empty();
+    }
+};
+class BSTIterator1 {
+public:
+    stack<TreeNode*> st;
+    BSTIterator1(TreeNode* root) {
+        TreeNode* r = root;
+        while(r){
+            st.push(r);
+            r = r->right;
+        }
+    }
+    
+    int before() {
+        TreeNode * node = st.top();
+        st.pop();
+        if(node->left){
+            TreeNode* r = node->left;
+            while(r){
+                st.push(r);
+                r = r->right;
+            }
+        }
+        return node->val;
+    }
+    
+    bool hasBefore() {
+        return !st.empty();
+    }
+};
 class Solution {
 public:
-    void inorder(TreeNode * root, unordered_map<int,bool> &mpp){
-        if(!root)
-            return;
-        inorder(root->left, mpp);
-        mpp[root->val] = true;
-        inorder(root->right, mpp);
-    }
-    bool solve(TreeNode * root, int k, unordered_map<int,bool> &mpp){
+    bool findTarget(TreeNode* root, int k) {
         if(!root)
             return false;
+        BSTIterator bstN(root);
+        BSTIterator1 bstB(root);
 
-        if(mpp[k - root->val] && root->val!=(k - root->val))
-            return true;
-        bool l = solve(root->left, k, mpp);
-        bool r = solve(root->right, k, mpp);
-        return l | r;
-    }
-    bool findTarget(TreeNode* root, int k) {
-        TreeNode * r = root;
-        unordered_map<int,bool> mpp;
-        inorder(r, mpp);
-
-        return solve(r, k, mpp);
+        int x = bstN.next();
+        int y = bstB.before();
+        while(x<y){
+            if(x+y==k)
+                return true;
+            else if(x+y<k)
+                x = bstN.next();
+            else
+                y = bstB.before();
+        }
+        return false;
     }
 };
