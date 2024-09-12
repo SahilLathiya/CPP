@@ -5,11 +5,8 @@ public:
         int n = nums.size();
         for(int i=0;i<n;i++){
             minH.push(nums[i]);
-            k--;
-            if(k<0){
+            if(minH.size()>k)
                 minH.pop();
-                k++;
-            }
         }
         return minH.top();
     }
