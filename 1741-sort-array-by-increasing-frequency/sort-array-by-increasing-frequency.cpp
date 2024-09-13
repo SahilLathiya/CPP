@@ -7,19 +7,19 @@ public:
         for(int i=0;i<n;i++)
             mpp[arr[i]]++;
         
-        priority_queue<p> maxH;
+        priority_queue<p, vector<p> , greater<p>> minH;
         for(auto it:mpp){
-            maxH.push({it.second, -it.first});
+            minH.push({it.second, -it.first});
         }
 
         vector<int> ans;
-        while(!maxH.empty()){
-            p pi = maxH.top();
-            maxH.pop();
+        while(!minH.empty()){
+            p pi = minH.top();
+            minH.pop();
             for(int i=0;i<pi.first;i++)
                 ans.push_back(-pi.second);
         }
-        reverse(ans.begin(), ans.end());
+        
         return ans;
     }
 };
