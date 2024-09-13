@@ -1,25 +1,28 @@
-typedef pair<int, int> p;
 class Solution {
 public:
+    
+    // Comparator function for custom sorting
+    bool customCompare(int a, int b, unordered_map<int, int>& freq) {
+        // Compare by frequency first
+        if (freq[a] != freq[b]) {
+            return freq[a] < freq[b]; // Lower frequency first
+        }
+        // If frequencies are the same, sort by value in decreasing order
+        return a > b; // Higher value first
+    }
+
     vector<int> frequencySort(vector<int>& arr) {
-        unordered_map<int, int> mpp;
-        int n = arr.size();
-        for(int i=0;i<n;i++)
-            mpp[arr[i]]++;
-        
-        priority_queue<p, vector<p> , greater<p>> minH;
-        for(auto it:mpp){
-            minH.push({it.second, -it.first});
+        // Step 1: Count the frequency of each number
+        unordered_map<int, int> freq;
+        for (int num : arr) {
+            freq[num]++;
         }
 
-        vector<int> ans;
-        while(!minH.empty()){
-            p pi = minH.top();
-            minH.pop();
-            for(int i=0;i<pi.first;i++)
-                ans.push_back(-pi.second);
-        }
-        
-        return ans;
+        // Step 2: Sort using custom comparator
+        sort(arr.begin(), arr.end(), [&](int a, int b) {
+            return customCompare(a, b, freq);
+        });
+
+        return arr;
     }
 };
