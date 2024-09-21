@@ -26,11 +26,10 @@ public:
                 q.pop();
                 ans.push_back(temp);
                 temp.clear();
+                if(!q.empty())
+                    q.push(NULL);
             }
             else{
-                    int size = q.size()-1;
-                    while(size--){
-                        curr = q.front();
                         temp.push_back(curr->val);
                         q.pop();
                         
@@ -40,11 +39,9 @@ public:
                         if(curr->right){
                             q.push(curr->right);
                         }
-                    }
-                    q.push(NULL);
+                    
                 }
         }
-        ans.pop_back();
         return ans;
     }
 };
