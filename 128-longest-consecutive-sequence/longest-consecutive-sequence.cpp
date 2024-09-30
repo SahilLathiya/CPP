@@ -1,28 +1,24 @@
 class Solution {
+
 public:
-    int longestConsecutive(vector<int>& nums) {
-        unordered_map<int, bool> map;
-        for(int i = 0; i<nums.size(); i++){
-            map[nums[i]] = true;
-        }
-        for(int i=0; i<nums.size(); i++){
-            if(map.count(nums[i]-1) > 0){
-                map[nums[i]] = false;
+    int longestConsecutive(vector<int>& arr) {
+        int ans = 0;
+        int n = arr.size();
+        unordered_set<int> st;
+        for(int i=0;i<n;i++)
+            st.insert(arr[i]);
+        for(auto i:st){
+            if(st.find(i-1)!=st.end())
+                continue;
+            int cnt = 1;
+            while(st.find(i+1)!=st.end()){
+                cnt++;
+                i++;
             }
+            ans = max(ans, cnt);
         }
-        // cout<<map[2];
-        int maxlen = 0;
-        for(int i=0; i<nums.size(); i++){
-            if(map[nums[i]] == true){
-                int count=0;
-                while(map.count(nums[i]+count) > 0){
-                    count++;
-                }
-                if(count>maxlen){
-                    maxlen = count;
-                }
-            }
-        }
-        return maxlen;
+        return ans;
+        
+        
     }
 };
