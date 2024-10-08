@@ -16,22 +16,14 @@ public:
             return;
         if(!root->left && !root->right)
             arr.push_back(root->val);
-        
         preOrder(root->left, arr);
         preOrder(root->right, arr);
     }
     bool leafSimilar(TreeNode* root1, TreeNode* root2) {
-        vector<int> t1;
-        vector<int> t2;
-        preOrder(root1, t1);
-        preOrder(root2, t2);
+        vector<int> l1, l2;
+        preOrder(root1, l1);
+        preOrder(root2, l2);
 
-        if(t1.size()!=t2.size())
-            return false;
-        for(int i=0;i<t1.size();i++){
-            if(t1[i]!=t2[i])
-                return false;
-        }
-        return true;
+        return l1==l2;
     }
 };
