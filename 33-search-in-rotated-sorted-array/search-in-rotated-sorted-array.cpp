@@ -1,37 +1,35 @@
 class Solution {
 public:
     int breakPoint(vector<int>& arr){
-        int n = arr.size();
-        int l = 0, h = n-1;
+        int l = 0, h = arr.size()-1;
         while(l<h){
             int mid = (h-l)/2 + l;
-            if(arr[mid]>=arr[0]){
+            if(arr[mid]>=arr[0])
                 l = mid + 1;
-            }
-            else{
+            else 
                 h = mid;
-            }
         }
         return l;
     }
-    int binarySearch(vector<int>& arr, int l, int h, int t){
+
+    int bs(vector<int>& arr, int target, int l, int h){
         while(l<=h){
             int mid = (h-l)/2 + l;
-            if(arr[mid]==t)
+            if(arr[mid]==target)
                 return mid;
-            else if(arr[mid]>t)
-                h = mid - 1;
+            else if(arr[mid]<target)
+                l = mid+1;
             else
-                l = mid + 1;
+                h = mid - 1;
         }
         return -1;
     }
-    int search(vector<int>& arr, int t) {
+    int search(vector<int>& arr, int target) {
         int b = breakPoint(arr);
-        cout<<b;
-        int x = binarySearch(arr, 0, b-1, t);
+
+        int x = bs(arr, target, 0, b-1);
         if(x!=-1)
             return x;
-        return binarySearch(arr, b, arr.size()-1, t);
+        return bs(arr, target, b, arr.size()-1);
     }
 };
